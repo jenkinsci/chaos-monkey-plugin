@@ -15,8 +15,7 @@
         <jenkins.version>2.164.1</jenkins.version>
         <java.level>8</java.level>
     </properties>
-    <name>TODO Plugin</name>
-    <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
+    <name>Issue Inject Plugin</name>
     <licenses>
         <license>
             <name>MIT License</name>
@@ -24,17 +23,20 @@
         </license>
     </licenses>
 
-    <!-- If you want this to appear on the wiki page:
+
     <developers>
-      <developer>
-        <id>bhacker</id>
-        <name>Bob Q. Hacker</name>
-        <email>bhacker@nowhere.net</email>
-      </developer>
-    </developers> -->
+        <developer>
+            <id>pierrebtz</id>
+            <name>Pierre Beitz</name>
+            <email>pibeitz@gmail.com</email>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
+        </developer>
+    </developers>
 
     <!-- Assuming you want to host on @jenkinsci:
-    <url>https://wiki.jenkins.io/display/JENKINS/TODO+Plugin</url>
+    <url>https://wiki.jenkins.io/display/JENKINS/Issue+Inject+Plugin</url>
     <scm>
         <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
