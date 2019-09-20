@@ -1,4 +1,4 @@
-package io.jenkins.plugins.issueinject.IssueInjectConfiguration
+package io.jenkins.plugins.chaosmonkey.ChaosMonkeyConfiguration
 
 import lib.FormTagLib
 
@@ -7,7 +7,7 @@ import lib.FormTagLib
  * on 2019-08-07.
  */
 namespace(FormTagLib).with {
-    section(title: _('Issue Inject')) {
+    section(title: _('Chaos Monkey')) {
         entry(title: _('Latency Injection')) {
             repeatableProperty(field: 'latencies', add: 'Add latency item') {
                 entry {

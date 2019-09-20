@@ -1,4 +1,4 @@
-package io.jenkins.plugins.issueinject;
+package io.jenkins.plugins.chaosmonkey;
 
 import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;

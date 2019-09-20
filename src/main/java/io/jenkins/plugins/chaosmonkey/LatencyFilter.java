@@ -1,4 +1,4 @@
-package io.jenkins.plugins.issueinject;
+package io.jenkins.plugins.chaosmonkey;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -30,7 +30,7 @@ public class LatencyFilter implements Filter {
   private static final Logger LOG = Logger.getLogger(LatencyFilter.class.getName());
 
   @Inject
-  private IssueInjectConfiguration configuration;
+  private ChaosMonkeyConfiguration configuration;
 
   @Initializer(after = PLUGINS_PREPARED)
   public static void init() throws ServletException {

@@ -1,4 +1,4 @@
-package io.jenkins.plugins.issueinject.DeadlockInjector
+package io.jenkins.plugins.chaosmonkey.DeadlockInjector
 
 import lib.FormTagLib
 

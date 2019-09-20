@@ -1,4 +1,4 @@
-package io.jenkins.plugins.issueinject;
+package io.jenkins.plugins.chaosmonkey;
 
 import hudson.Extension;
 import jenkins.model.GlobalConfiguration;
@@ -11,21 +11,21 @@ import java.util.List;
  * Created by Pierre Beitz
  * on 2019-08-04.
  */
-@Symbol("issue-inject")
+@Symbol("chaos-monkey")
 @Extension
-public class IssueInjectConfiguration extends GlobalConfiguration {
+public class ChaosMonkeyConfiguration extends GlobalConfiguration {
 
   /**
    * @return the singleton instance
    */
-  public static IssueInjectConfiguration get() {
-    return GlobalConfiguration.all().get(IssueInjectConfiguration.class);
+  public static ChaosMonkeyConfiguration get() {
+    return GlobalConfiguration.all().get(ChaosMonkeyConfiguration.class);
   }
 
   private List<LatencyRule> latencies;
   private DeadlockInjector deadlockInjector;
 
-  public IssueInjectConfiguration() {
+  public ChaosMonkeyConfiguration() {
     load();
   }
 

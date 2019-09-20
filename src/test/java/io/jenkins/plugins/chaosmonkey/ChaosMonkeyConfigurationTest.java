@@ -1,10 +1,8 @@
-package io.jenkins.plugins.issueinject;
+package io.jenkins.plugins.chaosmonkey;
 
-import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-import io.jenkins.plugins.issueinject.IssueInjectConfiguration;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
  * Created by Pierre Beitz
  * on 2019-08-04.
  */
-public class IssueInjectConfigurationTest {
+public class ChaosMonkeyConfigurationTest {
 
   @Rule
   public RestartableJenkinsRule rr = new RestartableJenkinsRule();
@@ -52,14 +50,14 @@ public class IssueInjectConfigurationTest {
       textbox = config.getInputByName("_.ratio");
       textbox.setText(Double.toString(ratio));
       r.submit(config);
-      assertEquals("global config page let us edit the path", path, IssueInjectConfiguration.get().getLatencies().get(0).getPath());
-      assertEquals("global config page let us edit the latency", latency, IssueInjectConfiguration.get().getLatencies().get(0).getLatency());
-      assertEquals("global config page let us edit the ratio", ratio, IssueInjectConfiguration.get().getLatencies().get(0).getRatio(), 0d);
+      assertEquals("global config page let us edit the path", path, ChaosMonkeyConfiguration.get().getLatencies().get(0).getPath());
+      assertEquals("global config page let us edit the latency", latency, ChaosMonkeyConfiguration.get().getLatencies().get(0).getLatency());
+      assertEquals("global config page let us edit the ratio", ratio, ChaosMonkeyConfiguration.get().getLatencies().get(0).getRatio(), 0d);
     });
     rr.then(r -> {
-      assertEquals("global config page let us edit it", path, IssueInjectConfiguration.get().getLatencies().get(0).getPath());
-      assertEquals("global config page let us edit it", latency, IssueInjectConfiguration.get().getLatencies().get(0).getLatency());
-      assertEquals("global config page let us edit it", ratio, IssueInjectConfiguration.get().getLatencies().get(0).getRatio(), 0d);
+      assertEquals("global config page let us edit it", path, ChaosMonkeyConfiguration.get().getLatencies().get(0).getPath());
+      assertEquals("global config page let us edit it", latency, ChaosMonkeyConfiguration.get().getLatencies().get(0).getLatency());
+      assertEquals("global config page let us edit it", ratio, ChaosMonkeyConfiguration.get().getLatencies().get(0).getRatio(), 0d);
     });
   }
 
