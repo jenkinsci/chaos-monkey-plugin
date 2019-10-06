@@ -16,6 +16,7 @@
         <java.level>8</java.level>
     </properties>
     <name>Chaos Monkey Plugin</name>
+    <description>Introduce issues in your Jenkins instance. Should not be installed in production!</description>
     <licenses>
         <license>
             <name>MIT License</name>
