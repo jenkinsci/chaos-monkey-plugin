@@ -1,5 +1,6 @@
 package io.jenkins.plugins.chaosmonkey;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.model.Queue;
 import hudson.model.RootAction;
@@ -74,6 +75,7 @@ public class ChaosMonkeyAction implements RootAction {
   private static class Event {
     private final String startTime;
     private final int duration;
+    @SuppressFBWarnings(value="URF_UNREAD_FIELD", justification = "Read in jelly")
     private boolean done;
 
     private Event(String startTime, int duration) {
