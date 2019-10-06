@@ -23,7 +23,6 @@ public class ChaosMonkeyConfiguration extends GlobalConfiguration {
   }
 
   private List<LatencyRule> latencies;
-  private DeadlockInjector deadlockInjector;
 
   public ChaosMonkeyConfiguration() {
     load();
@@ -44,16 +43,6 @@ public class ChaosMonkeyConfiguration extends GlobalConfiguration {
   @DataBoundSetter
   public void setLatencies(List<LatencyRule> latencies) {
     this.latencies = latencies;
-    save();
-  }
-
-  public DeadlockInjector getDeadlockInjector() {
-    return deadlockInjector;
-  }
-
-  @DataBoundSetter
-  public void setDeadlockInjector(DeadlockInjector deadlockInjector) {
-    this.deadlockInjector = deadlockInjector;
     save();
   }
 

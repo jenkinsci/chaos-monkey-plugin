@@ -17,12 +17,5 @@ namespace(FormTagLib).with {
                 }
             }
         }
-        entry(title: _('DeadLock Injection')) {
-            form {
-                entry {
-                    property(field: 'deadlockInjector')
-                }
-            }
-        }
     }
 }
