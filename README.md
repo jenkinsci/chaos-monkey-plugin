@@ -13,13 +13,19 @@ There are currently only 2 features:
 
 ![](./doc/queueLocker.png)
 
+* A load generator (CPU) accessible as a Global Action:
+
+![](./doc/loadGenerator.png)
+
 ## Warning
 
 This plugin is for testing and development purposes and should never be installed on a production instance!
 
 # Plan
 
-Another feature that will be needed is to simulate a heavy load on the instance.
+* Review the way the CPU load is generated works on Kubernetes
+* Add some memory load generator (and a leak generator)
+* Add some http request load generator
 
 ## About the name of the plugin
 

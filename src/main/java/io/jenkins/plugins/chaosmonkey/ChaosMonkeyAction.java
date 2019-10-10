@@ -5,6 +5,7 @@ import hudson.Extension;
 import hudson.model.Queue;
 import hudson.model.RootAction;
 import jenkins.model.Jenkins;
+import org.apache.commons.io.output.NullOutputStream;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -18,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -50,7 +53,7 @@ public class ChaosMonkeyAction implements RootAction {
   @RequirePOST
   public void doLockTheQueue(@QueryParameter int duration, StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
     Jenkins.get().checkPermission(Jenkins.ADMINISTER);
-    Event event = new Event(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), duration);
+    Event event = new Event(Event.Type.LOAD, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), duration);
     events.add(event);
     // fire and forget atm, no way to cancel what we did.
     ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -68,6 +71,33 @@ public class ChaosMonkeyAction implements RootAction {
     response.forwardToPreviousPage(request);
   }
 
+  @RequirePOST
+  public void doGenerateLoad(@QueryParameter int duration, StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
+    int threadNumber = Runtime.getRuntime().availableProcessors();
+    ExecutorService executorService = Executors.newFixedThreadPool(threadNumber);
+    Event event = new Event(Event.Type.LOCK, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), duration);
+    events.add(event);
+    CyclicBarrier barrier = new CyclicBarrier(threadNumber, event::setDone);
+    for (int i = 0; i < threadNumber; i++) {
+      executorService.submit(() -> NullOutputStream.NULL_OUTPUT_STREAM.write(generateLoad(duration, barrier)));
+    }
+    response.forwardToPreviousPage(request);
+  }
+
+  private static int generateLoad(int duration, CyclicBarrier barrier) {
+    long startTime = System.currentTimeMillis();
+    int count = 0;
+    while (System.currentTimeMillis() - startTime < duration) {
+      count++;
+    }
+    try {
+      barrier.await();
+    } catch (InterruptedException | BrokenBarrierException e) {
+      // silently ignore
+    }
+    return count;
+  }
+
   public List<Event> getEvents() {
     return Collections.unmodifiableList(events);
   }
@@ -75,16 +105,23 @@ public class ChaosMonkeyAction implements RootAction {
   private static class Event {
     private final String startTime;
     private final int duration;
-    @SuppressFBWarnings(value="URF_UNREAD_FIELD", justification = "Read in jelly")
+    @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "Read in jelly")
     private boolean done;
+    @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "Read in jelly")
+    private Type type;
 
-    private Event(String startTime, int duration) {
+    private Event(Type type, String startTime, int duration) {
+      this.type = type;
       this.startTime = startTime;
       this.duration = duration;
     }
 
     private void setDone() {
       this.done = true;
+    }
+
+    private enum Type {
+      LOCK, LOAD
     }
   }
 }
