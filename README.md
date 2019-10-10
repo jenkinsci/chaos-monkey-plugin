@@ -5,14 +5,21 @@ The need is to have a instance of Jenkins in a bad shape to gauge how the CLI ha
 
 There are currently only 2 features:
 
-* A latency injector, accessible from the Global Configuration of Jenkins.
-* A queue locker accessible as a Global Action
+* A latency injector, accessible from the Global Configuration of Jenkins:
 
-Another feature that will be needed is to simulate a heavy load on the instance.
+![](./doc/latencyInjector.png)
+
+* A queue locker accessible as a Global Action :
+
+![](./doc/queueLocker.png)
 
 ## Warning
 
 This plugin is for testing and development purposes and should never be installed on a production instance!
+
+# Plan
+
+Another feature that will be needed is to simulate a heavy load on the instance.
 
 ## About the name of the plugin
 
