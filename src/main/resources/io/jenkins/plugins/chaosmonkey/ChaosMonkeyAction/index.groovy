@@ -24,6 +24,16 @@ namespace(FormTagLib).with {
                     }
                 }
             }
+            section(title: 'Generate Load') {
+                form(name: 'chaos-monkey-trigger-load', method: 'POST', action: 'generateLoad', type: 'submit') {
+                    entry {
+                        textbox(name: 'duration')
+                    }
+                    entry {
+                        submit(value: 'Generate Load on the Instance')
+                    }
+                }
+            }
             section(title: 'Lock events since the last restart') {
                 block("""
                         <table class="bigtable pane">
@@ -32,6 +42,7 @@ namespace(FormTagLib).with {
                                     <th>Start time</th>
                                     <th>Duration</th>
                                     <th>Status</th>
+                                    <th>Type</th>
                                 </tr>
                             </thead>
                             ${events.collect { printEventEntry(it) }.join()}
@@ -48,6 +59,7 @@ def printEventEntry(e) {
             <td>${e.startTime}</td>
             <td>${e.duration}</td>
             <td>${e.done ? 'DONE' : 'RUNNING'}</td>
+            <td>${e.type}</td>
         </tr>
     """
 }
