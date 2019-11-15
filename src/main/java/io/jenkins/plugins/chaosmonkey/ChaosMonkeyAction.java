@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -84,6 +85,22 @@ public class ChaosMonkeyAction implements RootAction {
     response.forwardToPreviousPage(request);
   }
 
+  @RequirePOST
+  public void doGenerateMemoryLeak(StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
+    Event event = new Event(Event.Type.LEAK_START, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), -1);
+    events.add(event);
+    MemoryLeaker.INSTANCE.startLeak();
+    response.forwardToPreviousPage(request);
+  }
+
+  @RequirePOST
+  public void doStopMemoryLeak(StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
+    Event event = new Event(Event.Type.LEAK_END, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), -1);
+    events.add(event);
+    MemoryLeaker.INSTANCE.endLeak();
+    response.forwardToPreviousPage(request);
+  }
+
   private static int generateLoad(int duration, CyclicBarrier barrier) {
     long startTime = System.currentTimeMillis();
     int count = 0;
@@ -121,7 +138,53 @@ public class ChaosMonkeyAction implements RootAction {
     }
 
     private enum Type {
-      LOCK, LOAD
+      LOCK, LOAD, LEAK_START, LEAK_END
+    }
+  }
+
+  private enum MemoryLeaker {
+    INSTANCE;
+
+    private ExecutorService orchestrator;
+    private boolean isLeaking;
+    private List<BigObject> bigObjects = new ArrayList<>();
+
+    private void startLeak() {
+      if (!isLeaking) {
+        orchestrator = Executors.newSingleThreadExecutor();
+        orchestrator.submit(() -> {
+          isLeaking = true;
+          boolean isInterrupted = false;
+          while (!isInterrupted) {
+            bigObjects.add(new BigObject());
+            try {
+              Thread.sleep(100);
+              NullOutputStream.NULL_OUTPUT_STREAM.write(bigObjects.size());
+            } catch (InterruptedException e) {
+              isInterrupted = true;
+            }
+          }
+        });
+      }
+    }
+
+    private static class BigObject {
+      private byte[] chunk;
+
+      BigObject() {
+        Random random = new Random();
+        chunk = new byte[1024 * 1024];
+        random.nextBytes(chunk);
+      }
+    }
+
+    private void endLeak() {
+      if (isLeaking) {
+        // shutting down the service
+        orchestrator.shutdownNow();
+        bigObjects.clear();
+        isLeaking = false;
+      }
     }
   }
 }
