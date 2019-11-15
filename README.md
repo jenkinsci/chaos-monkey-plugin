@@ -17,6 +17,10 @@ There are currently only 2 features:
 
 ![](./doc/loadGenerator.png)
 
+* A memory leak generator accessible as a Global Action:
+
+![](./doc/memoryLeak.png)
+
 ## Warning
 
 This plugin is for testing and development purposes and should never be installed on a production instance!
@@ -24,7 +28,6 @@ This plugin is for testing and development purposes and should never be installe
 # Plan
 
 * Review the way the CPU load is generated works on Kubernetes
-* Add some memory load generator (and a leak generator)
 * Add some http request load generator
 
 ## About the name of the plugin

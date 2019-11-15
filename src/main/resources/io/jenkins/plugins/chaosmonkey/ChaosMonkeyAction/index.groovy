@@ -34,6 +34,18 @@ namespace(FormTagLib).with {
                     }
                 }
             }
+            section(title: 'Memory Leak Management') {
+                form(name: 'chaos-monkey-trigger-memory-leak', method: 'POST', action: 'generateMemoryLeak', type: 'submit') {
+                    entry {
+                        submit(value: 'Start Memory Leak')
+                    }
+                }
+                form(name: 'chaos-monkey-stop-memory-leak', method: 'POST', action: 'stopMemoryLeak', type: 'submit') {
+                    entry {
+                        submit(value: 'Stop Memory Leak')
+                    }
+                }
+            }
             section(title: 'Lock events since the last restart') {
                 block("""
                         <table class="bigtable pane">
