@@ -74,6 +74,7 @@ public class ChaosMonkeyAction implements RootAction {
 
   @RequirePOST
   public void doGenerateLoad(@QueryParameter int duration, StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
+    Jenkins.get().checkPermission(Jenkins.ADMINISTER);
     int threadNumber = Runtime.getRuntime().availableProcessors();
     ExecutorService executorService = Executors.newFixedThreadPool(threadNumber);
     Event event = new Event(Event.Type.LOCK, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), duration);
@@ -87,6 +88,7 @@ public class ChaosMonkeyAction implements RootAction {
 
   @RequirePOST
   public void doGenerateMemoryLeak(StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
+    Jenkins.get().checkPermission(Jenkins.ADMINISTER);
     Event event = new Event(Event.Type.LEAK_START, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), -1);
     events.add(event);
     MemoryLeaker.INSTANCE.startLeak();
@@ -95,6 +97,7 @@ public class ChaosMonkeyAction implements RootAction {
 
   @RequirePOST
   public void doStopMemoryLeak(StaplerRequest request, StaplerResponse response) throws ServletException, IOException {
+    Jenkins.get().checkPermission(Jenkins.ADMINISTER);
     Event event = new Event(Event.Type.LEAK_END, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), -1);
     events.add(event);
     MemoryLeaker.INSTANCE.endLeak();
