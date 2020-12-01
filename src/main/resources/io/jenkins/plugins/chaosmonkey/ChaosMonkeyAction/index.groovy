@@ -12,7 +12,7 @@ def l = namespace(LayoutTagLib)
 def events = it.getEvents()
 
 namespace(FormTagLib).with {
-    l.layout(norefresh: 'true') {
+    l.layout(norefresh: 'true', permission: app.ADMINISTER) {
         l.main_panel {
             section(title: 'Lock The Queue') {
                 form(name: 'chaos-monkey-trigger-deadlock', method: 'POST', action: 'lockTheQueue', type: 'submit') {

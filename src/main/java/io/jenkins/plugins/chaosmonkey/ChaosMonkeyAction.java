@@ -36,7 +36,7 @@ public class ChaosMonkeyAction implements RootAction {
   @CheckForNull
   @Override
   public String getIconFileName() {
-    return "/plugin/chaos-monkey/images/fire.svg";
+    return Jenkins.get().hasPermission(Jenkins.ADMINISTER) ? "/plugin/chaos-monkey/images/fire.svg" : null;
   }
 
   @CheckForNull
@@ -48,7 +48,7 @@ public class ChaosMonkeyAction implements RootAction {
   @CheckForNull
   @Override
   public String getUrlName() {
-    return "chaos";
+    return Jenkins.get().hasPermission(Jenkins.ADMINISTER) ? "chaos" : null;
   }
 
   @RequirePOST
