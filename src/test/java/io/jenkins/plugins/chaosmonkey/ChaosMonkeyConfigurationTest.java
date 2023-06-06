@@ -1,8 +1,8 @@
 package io.jenkins.plugins.chaosmonkey;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import org.htmlunit.html.HtmlElement;
+import org.htmlunit.html.HtmlForm;
+import org.htmlunit.html.HtmlTextInput;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
